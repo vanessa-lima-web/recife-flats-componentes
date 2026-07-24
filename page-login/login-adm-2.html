@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recife Flats | Login - Administração</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Helvetica, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;
+        }
+
+        .container h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .container p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+            margin: 15px 0;
+            color: #fff;
+        }
+
+        .container span {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .container a {
+            color: #512da8;
+            font-size: 13px;
+            text-decoration: none;
+            margin: 15px 0 10px;
+            transition: color 0.3s;
+        }
+
+        .container a:hover {
+            color: #7c4dff;
+            text-decoration: underline;
+        }
+
+        .container button {
+            background-color: #512da8;
+            color: #fff;
+            font-size: 0.9rem;
+            padding: 12px 45px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .container button:hover {
+            background-color: #7c4dff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(81, 45, 168, 0.4);
+        }
+
+        .container button.hidden {
+            background-color: transparent;
+            border-color: #fff;
+        }
+
+        .container button.hidden:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .container form {
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            height: 100%;
+        }
+
+        .container input {
+            background-color: #f5f5f5;
+            border: 2px solid transparent;
+            margin: 8px 0;
+            padding: 12px 15px;
+            font-size: 14px;
+            border-radius: 8px;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .container input:focus {
+            border-color: #512da8;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(81, 45, 168, 0.1);
+        }
+
+        .container input::placeholder {
+            color: #999;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .sign-in {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .container.active .sign-in {
+            transform: translateX(100%);
+        }
+
+        .sign-up {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.active .sign-up {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: move 0.6s;
+        }
+
+        @keyframes move {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            } 
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .social-icons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            width: 40px;
+            height: 40px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #512da8;
+            border-color: #512da8;
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.6s ease-in-out;
+            border-radius: 0 30px 30px 150px;
+            z-index: 1000;
+        }
+
+        .container.active .toggle-container {
+            transform: translateX(-100%);
+            border-radius: 150px 30px 30px 0;
+        }
+
+        .toggle {
+            background: linear-gradient(135deg, #512da8 0%, #7c4dff 100%);
+            height: 100%;
+            color: #fff;
+            position: relative;
+            left: -100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .container.active .toggle {
+            transform: translateX(50%);
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 30px;
+            text-align: center;
+            top: 0;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .toggle-panel h1 {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .toggle-left {
+            transform: translateX(-200%);
+        }
+
+        .container.active .toggle-left {
+            transform: translateX(0);
+        }
+
+        .toggle-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.active .toggle-right {
+            transform: translateX(200%);
+        }
+
+        /* ========== ESTILOS DA LOGO ========== */
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            max-width: 180px;
+            height: auto;
+            filter: brightness(0) invert(1); /* Deixa a logo branca */
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Se quiser logo colorida (sem filtro branco) */
+        .logo-container.colored img {
+            filter: none;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        /* Logo com texto ao lado */
+        .logo-with-text {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-with-text img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .logo-with-text .brand-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .logo-with-text .brand-tagline {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                min-height: auto;
+                border-radius: 20px;
+            }
+
+            .form-container {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 30px 0;
+            }
+
+            .sign-in, .sign-up {
+                width: 100%;
+                position: relative;
+                left: 0;
+                opacity: 1;
+                transform: none !important;
+            }
+
+            .sign-up {
+                display: none;
+            }
+
+            .container.active .sign-in {
+                display: none;
+            }
+
+            .container.active .sign-up {
+                display: flex;
+                opacity: 1;
+                animation: none;
+            }
+
+            .toggle-container {
+                position: relative;
+                left: 0;
+                width: 100%;
+                height: auto;
+                border-radius: 0 0 20px 20px;
+                transform: none !important;
+            }
+
+            .toggle {
+                left: 0;
+                width: 100%;
+                transform: none !important;
+            }
+
+            .toggle-panel {
+                position: relative;
+                width: 100%;
+                padding: 30px;
+            }
+
+            .toggle-left, .toggle-right {
+                transform: none !important;
+            }
+
+            .toggle-left {
+                display: none;
+            }
+
+            .container.active .toggle-left {
+                display: flex;
+            }
+
+            .container.active .toggle-right {
+                display: none;
+            }
+
+            .logo-container img {
+                max-width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <!-- Formulário de Cadastro -->
+    <div class="form-container sign-up">
+        <form>
+            <h1>Criar Conta</h1>
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+            <span>ou use seu e-mail para cadastro</span>
+            <input type="text" placeholder="Nome completo" required>
+            <input type="email" placeholder="E-mail" required>
+            <input type="password" placeholder="Senha" required>
+            <button type="button">Cadastrar</button>
+        </form>
+    </div>
+
+    <!-- Formulário de Login -->
+    <div class="form-container sign-in">
+        <form>
+            <h1>Entrar</h1>
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+            <span>ou use seu e-mail e senha</span>
+            <input type="email" placeholder="E-mail" required>
+            <input type="password" placeholder="Senha" required>
+            <a href="#">Esqueceu sua senha?</a>
+            <button type="button">Entrar</button>
+        </form>
+    </div>
+
+    <!-- Painel de Toggle -->
+    <div class="toggle-container">
+        <div class="toggle">
+            <!-- Painel Esquerdo (aparece quando clica em "Entrar") -->
+            <div class="toggle-panel toggle-left">
+                
+                <!-- OPÇÃO 1: Só a logo -->
+                <div class="logo-container">
+                    <img src="./img/logo-recife-flat-temporada26.svg" alt="Recife Flats">
+                </div>
+                
+                <p>Entre com seus dados para acessar o painel administrativo</p>
+                <button class="hidden" id="login">Entrar</button>
+            </div>
+            
+            <!-- Painel Direito (aparece primeiro) -->
+            <div class="toggle-panel toggle-right">
+                
+                <!-- OPÇÃO 2: Logo com nome da empresa -->
+                <div class="logo-with-text">
+                    <img src="./img/logo-recife-flat-temporada26.svg" alt="Logo">
+                    <div>
+                        <div class="brand-name">Recife Flats</div>
+                        <div class="brand-tagline">Administração</div>
+                    </div>
+                </div>
+                
+                <p>Cadastre-se para gerenciar seus imóveis</p>
+                <button class="hidden" id="register">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const container = document.getElementById('container');
+    const registerBtn = document.getElementById('register');
+    const loginBtn = document.getElementById('login');
+
+    registerBtn.addEventListener('click', () => {
+        container.classList.add('active');
+    });
+
+    loginBtn.addEventListener('click', () => {
+        container.classList.remove('active');
+    });
+</script>
+
+</body>
+</html>
