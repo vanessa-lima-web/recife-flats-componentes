@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recife Flats | Login</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f6f3f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+            display: flex;
+            overflow: hidden;
+            width: 850px;
+            max-width: 100%;
+            min-height: 500px;
+        }
+
+        /* ========== LADO DA LOGO ========== */
+        .logo-side {
+            flex: 1;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border-right: 1px solid #eee;
+        }
+
+        .logo-side img {
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+        }
+
+        /* ========== LADO DO LOGIN ========== */
+        .login-side {
+            flex: 1;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-side h1 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #333;
+         
+        }
+
+        .login-side .subtitle {
+            font-size: 0.8rem;
+            color: #908f8f;
+            margin-bottom: 25px;
+        }
+
+        /* Formulário */
+        .login-form input {
+            width: 100%;
+            background-color: #f5f5f5;
+            border: 2px solid transparent;
+            margin-bottom: 15px;
+            padding: 14px 16px;
+            font-size: 14px;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-form input:focus {
+            border-color: #2d56a8;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(81, 45, 168, 0.1);
+        }
+
+        .login-form input::placeholder {
+            color: #999;
+        }
+
+        .login-form input.error {
+            border-color: #e53935;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .form-options input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .form-options a {
+            color: #512da8;
+            text-decoration: none;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #2c8de2;
+            color: #fff;
+            font-size: 1rem;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #0e84d2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(12, 152, 217, 0.4);
+        }
+
+        .btn-submit:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Mensagem de erro */
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        /* Mensagem de sucesso */
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .logo-side {
+                padding: 30px;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .logo-side img {
+                max-height: 120px;
+            }
+
+            .login-side {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- LADO ESQUERDO: LOGO -->
+    <div class="logo-side">
+        <img src="./img/logo-recife-flat-temporada26.svg" alt="Recife Flats">
+    </div>
+
+    <!-- LADO DIREITO: LOGIN -->
+    <div class="login-side">
+        <h1>Administração</h1>
+        <p class="subtitle">Faça login para acessar o painel</p>
+
+        <!-- Mensagem de erro -->
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText">Usuário ou senha incorretos</span>
+        </div>
+
+        <!-- Mensagem de sucesso -->
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            <span>Login realizado! Redirecionando...</span>
+        </div>
+
+        <!-- Formulário de Login -->
+        <form class="login-form" id="loginForm">
+            <input type="text" id="username" placeholder="Usuário" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            
+            <div class="form-options">
+                <label>
+                    <input type="checkbox" id="remember"> Lembrar de mim
+                </label>
+                <a href="#" onclick="forgotPassword()">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Entrar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // =============================================
+    // CONFIGURAÇÃO DOS USUÁRIOS
+    // =============================================
+    const USERS = {
+        'adm-gabi': 'ADM2025',
+        'adm-lucas': 'ADM2025',
+        'adm-vanessa': 'ADM2025'
+    };
+
+    // Página para redirecionar após login
+    const REDIRECT_URL = 'dashboard.html';
+
+    // =============================================
+    // ELEMENTOS DO DOM
+    // =============================================
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const rememberCheckbox = document.getElementById('remember');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
+    const successMessage = document.getElementById('successMessage');
+
+    // =============================================
+    // VERIFICAR SE JÁ ESTÁ LOGADO
+    // =============================================
+    window.onload = function() {
+        const loggedUser = localStorage.getItem('loggedUser') || sessionStorage.getItem('loggedUser');
+        
+        if (loggedUser) {
+            window.location.href = REDIRECT_URL;
+        }
+
+        const savedUsername = localStorage.getItem('savedUsername');
+        if (savedUsername) {
+            usernameInput.value = savedUsername;
+            rememberCheckbox.checked = true;
+        }
+    };
+
+    // =============================================
+    // FUNÇÃO DE LOGIN
+    // =============================================
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = usernameInput.value.trim().toLowerCase();
+        const password = passwordInput.value;
+
+        hideMessages();
+        removeInputErrors();
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner"></span>';
+
+        setTimeout(function() {
+            if (USERS[username] && USERS[username] === password) {
+                showSuccess();
+
+                if (rememberCheckbox.checked) {
+                    localStorage.setItem('loggedUser', username);
+                    localStorage.setItem('savedUsername', username);
+                } else {
+                    sessionStorage.setItem('loggedUser', username);
+                    localStorage.removeItem('savedUsername');
+                }
+
+                setTimeout(function() {
+                    window.location.href = REDIRECT_URL;
+                }, 1500);
+
+            } else {
+                showError('Usuário ou senha incorretos');
+                usernameInput.classList.add('error');
+                passwordInput.classList.add('error');
+                
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Entrar';
+            }
+        }, 800);
+    });
+
+    // =============================================
+    // FUNÇÕES AUXILIARES
+    // =============================================
+    function showError(message) {
+        errorText.textContent = message;
+        errorMessage.classList.add('show');
+    }
+
+    function showSuccess() {
+        successMessage.classList.add('show');
+    }
+
+    function hideMessages() {
+        errorMessage.classList.remove('show');
+        successMessage.classList.remove('show');
+    }
+
+    function removeInputErrors() {
+        usernameInput.classList.remove('error');
+        passwordInput.classList.remove('error');
+    }
+
+    usernameInput.addEventListener('input', function() {
+        this.classList.remove('error');
+        hideMessages();
+    });
+
+    passwordInput.addEventListener('input', function() {
+        this.classList.remove('error');
+        hideMessages();
+    });
+
+    function forgotPassword() {
+        alert('Entre em contato com o administrador do sistema para redefinir sua senha.');
+    }
+</script>
+
+</body>
+</html>
