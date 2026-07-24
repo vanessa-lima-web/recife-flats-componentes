@@ -1,17 +1,17 @@
 #Adm - Login
 
-![0](./adm-login.gif)
+![0](./page-login/adm-login.gif)
 
 
 
 
 #Login - Adm - 1
 
-![1](./login-adm-1.gif)
+![1](./page-login/login-adm-1.gif)
 
 
 
 
 #Login - Adm - 2
 
-![2](./gif-login-adm-2.gif)
+![2](./page-login/gif-login-adm-2.gif)
